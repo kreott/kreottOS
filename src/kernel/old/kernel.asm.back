@@ -1,0 +1,27 @@
+[BITS 64]
+global _start
+extern kernel_main
+
+section .multiboot
+align 8
+multiboot_header:
+    ; magic number
+    dd 0xE85250D6
+    ; architecture (1 = x86_64)
+    dd 1
+    ; header length
+    dd 8
+    ; checksum
+    dd -(0xE85250D6 + 0 + 8)
+
+section .text
+_start:
+    mov rdi, 0xB8000        ; VGA text buffer address
+    mov al, 'H'              ; character to print
+    mov ah, 0x0F             ; attribute (white on black)
+    mov [rdi], ax            ; write 2 bytes
+    jmp hang
+hang:
+    cli
+    hlt
+    jmp hang

@@ -1,0 +1,28 @@
+OUTPUT_FORMAT(elf64-x86-64)
+ENTRY(_start)
+
+SECTIONS
+{
+
+    .multiboot ALIGN(8) : {
+        *(.multiboot)
+    }
+
+    . = 1M;
+    
+    .text : {
+        *(.text)
+    }
+
+    .rodata : {
+        *(.rodata)
+    }
+
+    .data : {
+        *(.data)
+    }
+
+    .bss : {
+        *(.bss)
+    }
+}
